@@ -1,0 +1,7 @@
+﻿  pch.cpp
+  dllmain.cpp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 112 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  super_linker.vcxproj -> D:\Capture The Flag\Hackforces\super_linker\x64\Release\super_linker.dll
