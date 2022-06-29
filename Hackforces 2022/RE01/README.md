@@ -9,6 +9,8 @@
 - Compiler: MSVC++
 - 64 bit
 
+![ok](./h2.png)
+
 ## Analysis
 - Hàm main:
 
@@ -177,48 +179,48 @@ void __noreturn sub_180001D10()
 debug035:0000000180001DA5 loc_180001DA5:                          ; CODE XREF: sub_180001D10+36↑j
 debug035:0000000180001DA5                                         ; sub_180001D10+4E↑j ...
 debug035:0000000180001DA5 xor     edx, edx
-debug035:0000000180001DA7 mov     [rsp+210h+var_1A0], 0A257C3ACh
+debug035:0000000180001DA7 mov     [rsp+210h+var_1A0], 0A257C3ACh        //
 debug035:0000000180001DAF mov     r8d, 100h
-debug035:0000000180001DB5 mov     [rsp+210h+var_19C], 0BE38225Ah
+debug035:0000000180001DB5 mov     [rsp+210h+var_19C], 0BE38225Ah        //
 debug035:0000000180001DBD lea     rcx, [rbp+110h+var_110]
-debug035:0000000180001DC1 mov     [rsp+210h+var_198], 27381E74h
-debug035:0000000180001DC9 mov     [rsp+210h+var_194], 0A2B498B2h
-debug035:0000000180001DD1 mov     [rsp+210h+var_1E0], 3020100h
-debug035:0000000180001DD9 mov     [rsp+210h+var_1DC], 7060504h
-debug035:0000000180001DE1 mov     [rsp+210h+var_1D8], 0B0A0908h
-debug035:0000000180001DE9 mov     [rsp+210h+var_1D4], 0F0E0D0Ch
-debug035:0000000180001DF1 mov     [rbp+110h+var_150], 0B444D514h
-debug035:0000000180001DF8 mov     [rbp+110h+var_14C], 259D2A18h
-debug035:0000000180001DFF mov     [rbp+110h+var_148], 0CF074D40h
-debug035:0000000180001E06 mov     [rbp+110h+var_144], 592D0C36h
-debug035:0000000180001E0D mov     [rbp+110h+var_140], 60961B0Fh
-debug035:0000000180001E14 mov     [rbp+110h+var_13C], 26AF1B2Dh
-debug035:0000000180001E1B mov     [rbp+110h+var_138], 6342F7BCh
-debug035:0000000180001E22 mov     [rbp+110h+var_134], 3E426A7Bh
-debug035:0000000180001E29 mov     [rbp+110h+var_130], 0FD60B43Ch
-debug035:0000000180001E30 mov     [rbp+110h+var_12C], 0A5C3902h
-debug035:0000000180001E37 mov     [rbp+110h+var_128], 8BA5C084h
-debug035:0000000180001E3E mov     [rbp+110h+var_124], 0A9BF6E14h
-debug035:0000000180001E45 mov     [rbp+110h+var_120], 5DDEC39Eh
-debug035:0000000180001E4C mov     [rbp+110h+var_11C], 0B2342D5Ah
-debug035:0000000180001E53 mov     [rbp+110h+var_118], 77DDF031h
-debug035:0000000180001E5A mov     [rbp+110h+var_114], 0DA59A72Ah
-debug035:0000000180001E61 mov     [rbp+110h+var_190], 6BAC9537h
-debug035:0000000180001E68 mov     [rbp+110h+var_18C], 40B34122h
-debug035:0000000180001E6F mov     [rbp+110h+var_188], 0A85A54ACh
-debug035:0000000180001E76 mov     [rbp+110h+var_184], 3D2C569Bh
-debug035:0000000180001E7D mov     [rbp+110h+var_180], 886DA674h
-debug035:0000000180001E84 mov     [rbp+110h+var_17C], 3356385Ah
-debug035:0000000180001E8B mov     [rbp+110h+var_178], 0B65F586Ah
-debug035:0000000180001E92 mov     [rbp+110h+var_174], 0C5638709h
-debug035:0000000180001E99 mov     [rbp+110h+var_170], 7A035030h
-debug035:0000000180001EA0 mov     [rbp+110h+var_16C], 0A4B0A8BAh
-debug035:0000000180001EA7 mov     [rbp+110h+var_168], 3C58814h
-debug035:0000000180001EAE mov     [rbp+110h+var_164], 8C9A2A67h
-debug035:0000000180001EB5 mov     [rbp+110h+var_160], 4A3A464h
-debug035:0000000180001EBC mov     [rbp+110h+var_15C], 812DB34Eh
-debug035:0000000180001EC3 mov     [rbp+110h+var_158], 5F707088h
-debug035:0000000180001ECA mov     [rbp+110h+var_154], 269035C5h         // từ `0x180001DA7` tới `0x180001ECA` là các byte array của cipher, AESKey, AESiv và fake flag
+debug035:0000000180001DC1 mov     [rsp+210h+var_198], 27381E74h         //
+debug035:0000000180001DC9 mov     [rsp+210h+var_194], 0A2B498B2h        // 16 bytes đầu là AESkey
+debug035:0000000180001DD1 mov     [rsp+210h+var_1E0], 3020100h          //
+debug035:0000000180001DD9 mov     [rsp+210h+var_1DC], 7060504h          //
+debug035:0000000180001DE1 mov     [rsp+210h+var_1D8], 0B0A0908h         //
+debug035:0000000180001DE9 mov     [rsp+210h+var_1D4], 0F0E0D0Ch         // 16 bytes kế tiếp là AESiv
+debug035:0000000180001DF1 mov     [rbp+110h+var_150], 0B444D514h        //
+debug035:0000000180001DF8 mov     [rbp+110h+var_14C], 259D2A18h         //  
+debug035:0000000180001DFF mov     [rbp+110h+var_148], 0CF074D40h        //
+debug035:0000000180001E06 mov     [rbp+110h+var_144], 592D0C36h         //
+debug035:0000000180001E0D mov     [rbp+110h+var_140], 60961B0Fh         //
+debug035:0000000180001E14 mov     [rbp+110h+var_13C], 26AF1B2Dh         //
+debug035:0000000180001E1B mov     [rbp+110h+var_138], 6342F7BCh         //
+debug035:0000000180001E22 mov     [rbp+110h+var_134], 3E426A7Bh         //
+debug035:0000000180001E29 mov     [rbp+110h+var_130], 0FD60B43Ch        //
+debug035:0000000180001E30 mov     [rbp+110h+var_12C], 0A5C3902h         //  
+debug035:0000000180001E37 mov     [rbp+110h+var_128], 8BA5C084h         //
+debug035:0000000180001E3E mov     [rbp+110h+var_124], 0A9BF6E14h        //
+debug035:0000000180001E45 mov     [rbp+110h+var_120], 5DDEC39Eh         //
+debug035:0000000180001E4C mov     [rbp+110h+var_11C], 0B2342D5Ah        //
+debug035:0000000180001E53 mov     [rbp+110h+var_118], 77DDF031h         //
+debug035:0000000180001E5A mov     [rbp+110h+var_114], 0DA59A72Ah        // 64 bytes kế tiếp là AES Cipher
+debug035:0000000180001E61 mov     [rbp+110h+var_190], 6BAC9537h         //
+debug035:0000000180001E68 mov     [rbp+110h+var_18C], 40B34122h         //
+debug035:0000000180001E6F mov     [rbp+110h+var_188], 0A85A54ACh        //
+debug035:0000000180001E76 mov     [rbp+110h+var_184], 3D2C569Bh         //
+debug035:0000000180001E7D mov     [rbp+110h+var_180], 886DA674h         //
+debug035:0000000180001E84 mov     [rbp+110h+var_17C], 3356385Ah         //
+debug035:0000000180001E8B mov     [rbp+110h+var_178], 0B65F586Ah        //
+debug035:0000000180001E92 mov     [rbp+110h+var_174], 0C5638709h        //
+debug035:0000000180001E99 mov     [rbp+110h+var_170], 7A035030h         //
+debug035:0000000180001EA0 mov     [rbp+110h+var_16C], 0A4B0A8BAh        //
+debug035:0000000180001EA7 mov     [rbp+110h+var_168], 3C58814h          //
+debug035:0000000180001EAE mov     [rbp+110h+var_164], 8C9A2A67h         //
+debug035:0000000180001EB5 mov     [rbp+110h+var_160], 4A3A464h          //
+debug035:0000000180001EBC mov     [rbp+110h+var_15C], 812DB34Eh         //
+debug035:0000000180001EC3 mov     [rbp+110h+var_158], 5F707088h         //
+debug035:0000000180001ECA mov     [rbp+110h+var_154], 269035C5h         // 64 bytes cuối là keyxor của cipher
 debug035:0000000180001ED1 call    sub_180002EF8
 debug035:0000000180001ED6 mov     rcx, 0C689ACC3A8D17E54h               // Từ địa chỉ `0x180001ED6` tới `0x180001F3B`, thực hiện lệnh XOR nhằm giải mã chuỗi `FLAG: `
 debug035:0000000180001EE0 mov     rax, 75E9127C9F5BEE05h                // cipher = bytes.fromhex("0x00C689ACC3A8D17E5475E9127C9F5BEE05"[2:])[::-1]
@@ -253,3 +255,6 @@ debug035:0000000180001F77 call    sub_180001900
 debug035:0000000180001F77 sub_180001D10 endp
 ```
 
+Debug tới đoạn dưới đây:
+
+![ok1](./h1.png)
