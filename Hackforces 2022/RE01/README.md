@@ -293,4 +293,73 @@ Mình thấy được chương trình đang gọi API `GetModuleHandleA` bởi t
 
 Sử dụng plugin `FindCrypt`, mình có thể biết được chương trình sử dụng thuật toán AES và nó được thực hiện sau khi qua hàm Anti-Debug:
 
+![fc](./fc.png)
 
+Đoạn code được thưc hiện sau đoạn Anti-Debug:
+
+![okchua](./okchua.png)
+
+Trace qua đoạn đó, mình thu được: 
+- AES Key: `172, 195, 87, 162, 90, 34, 56, 190, 116, 30, 56, 39, 178, 152, 180, 162`.
+- iv : ` 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 `
+
+Giá trị output sau khi thực hiện mã hoá bằng AES, tiếp tục mã hoá lần 2 bằng thuật toán XOR, với `key xor = {172, 195, 87, 162, 90, 34, 56, 190, 116, 30, 56, 39, 178, 152, 180, 162}` được lưu ở thanh ghi rax.
+
+Bước cuối cùng sẽ thực hiện so sánh với cipher mà các byte array nằm ở đoạn đầu của hàm main. Nếu đúng thì sẽ in ra chuỗi `Correct !!!`, ngược lại sẽ là `Wrong !!!`.
+
+Hình dưới là 2 block của 2 chuỗi `Correct !!!` và `Wrong !!!` đã bị obfuscation:
+
+```asm
+Print ra chuỗi `\nCorrect !!!`
+debug034:0000000180001C02 mov     rax, 18A5734AA75E149h               // cipher = bytes.fromhex("0x00C689ACC389F05F7418A5734AA75E149"[2:])[::-1]
+debug034:0000000180001C0C mov     [rsp+190h+var_170], rax             // key = bytes.fromhex("0x00C689ACC3A8D17E5475E93246D81AA243"[2:])[::-1]
+debug034:0000000180001C11 mov     rax, [rsp+190h+var_170]             // out = ""
+debug034:0000000180001C16 mov     qword ptr [rsp+190h+var_160], rax   // for i in range(len(cipher)):
+debug034:0000000180001C1B mov     rax, 0C689ACC389F05F74h             //      out += chr(cipher[i] ^ key[i % len(key)])
+debug034:0000000180001C25 mov     [rsp+190h+var_170], rax             // print(out)
+debug034:0000000180001C2A mov     rax, [rsp+190h+var_170]             //
+debug034:0000000180001C2F mov     qword ptr [rsp+190h+var_160+8], rax
+debug034:0000000180001C34 mov     rax, 75E93246D81AA243h
+debug034:0000000180001C3E mov     [rsp+190h+var_170], rax
+debug034:0000000180001C43 mov     rax, [rsp+190h+var_170]
+debug034:0000000180001C48 mov     qword ptr [rbp+90h+var_40], rax
+debug034:0000000180001C4C mov     rax, 0C689ACC3A8D17E54h
+debug034:0000000180001C56 mov     [rsp+190h+var_170], rax
+debug034:0000000180001C5B mov     rax, [rsp+190h+var_170]
+debug034:0000000180001C60 mov     qword ptr [rbp+90h+var_40+8], rax
+debug034:0000000180001C64 movdqa  xmm0, [rsp+190h+var_160]
+debug034:0000000180001C6A pxor    xmm0, [rbp+90h+var_40]
+debug034:0000000180001C6F movdqa  [rsp+190h+var_160], xmm0            // \nCorrect !!!
+
+Print ra chuỗi `\nWrong !!!`
+debug034:0000000180001C83 mov     rax, 54C95528B768F549h              // cipher = bytes.fromhex("0x00C689ACC3A8D15F7554C95528B768F549"[2:])[::-1]
+debug034:0000000180001C8D mov     [rsp+190h+var_170], rax             // key = bytes.fromhex("0x00C689ACC3A8D17E5475E93246D81AA243")
+debug034:0000000180001C92 mov     rax, [rsp+190h+var_170]             // out = ""
+debug034:0000000180001C97 mov     qword ptr [rsp+190h+var_160], rax   // for i in range(len(cipher)):
+debug034:0000000180001C9C mov     rax, 0C689ACC3A8D15F75h             //      out += chr(cipher[i] ^ key[i % len(key)])
+debug034:0000000180001CA6 mov     [rsp+190h+var_170], rax             // print(out)
+debug034:0000000180001CAB mov     rax, [rsp+190h+var_170]             //
+debug034:0000000180001CB0 mov     qword ptr [rsp+190h+var_160+8], rax
+debug034:0000000180001CB5 mov     rax, 75E93246D81AA243h
+debug034:0000000180001CBF mov     [rsp+190h+var_170], rax
+debug034:0000000180001CC4 mov     rax, [rsp+190h+var_170]
+debug034:0000000180001CC9 mov     qword ptr [rbp+90h+var_40], rax
+debug034:0000000180001CCD mov     rax, 0C689ACC3A8D17E54h
+debug034:0000000180001CD7 mov     [rsp+190h+var_170], rax
+debug034:0000000180001CDC mov     rax, [rsp+190h+var_170]
+debug034:0000000180001CE1 mov     qword ptr [rbp+90h+var_40+8], rax
+debug034:0000000180001CE5 movdqa  xmm0, [rsp+190h+var_160]
+debug034:0000000180001CEB pxor    xmm0, [rbp+90h+var_40]
+debug034:0000000180001CF0 movdqa  [rsp+190h+var_160], xmm0            // \nWrong !!!
+```
+
+## Solve
+- Nhận thấy chương trình đã sử dụng thuật toán lần lượt là AES và XOR, ta có thể reverse lại thuật toán đó. Tham khảo script solve ở đây ![solve](./Solve/solve.py)
+
+# Build
+- Trước hết thì bài này mình có tham khảo bài của chị `lanleft`. Tuy nhiên thì chị ấy không đề cập về cách build, may mắn là mình đã tìm được blog của ired.team nói chi tiết về kỹ thuật `Loading and Executing Shellcode From PE Resources`. Về tổng quan của kỹ thuật này nói về cách thực thi shellcode bằng cách convert file DLL sang shellcode và add resource shellcode đó vào project trên Visual Studio. Bạn đọc tham khảo chi tiết dưới link:
+- https://www.ired.team/offensive-security/code-injection-process-injection/loading-and-executing-shellcode-from-portable-executable-resources 
+- https://www.ired.team/offensive-security/code-injection-process-injection/reflective-shellcode-dll-injection (Blog này nói về cách convert DLL file sang shellcode)
+- https://github.com/monoxgas/sRDI (Project về convert DLL sang shellcode).
+
+- END -
