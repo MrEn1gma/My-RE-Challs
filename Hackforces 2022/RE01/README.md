@@ -357,7 +357,7 @@ debug034:0000000180001CF0 movdqa  [rsp+190h+var_160], xmm0            // \nWrong
 - Nhận thấy chương trình đã sử dụng thuật toán lần lượt là AES và XOR, ta có thể reverse lại thuật toán đó. Tham khảo script solve ở đây ![solve](./Solve/solve.py)
 
 # Build
-- Trước hết thì bài này mình có tham khảo bài của chị `lanleft`. Tuy nhiên thì chị ấy không đề cập về cách build, may mắn là mình đã tìm được blog của ired.team nói chi tiết về kỹ thuật `Loading and Executing Shellcode From PE Resources`. Về tổng quan của kỹ thuật này nói về cách thực thi shellcode bằng cách convert file DLL sang shellcode và add resource shellcode đó vào project trên Visual Studio. Bạn đọc tham khảo chi tiết dưới link:
+- Trước hết thì bài này mình có tham khảo bài của chị `lanleft` (https://github.com/lanleft/CTF_Writeups/tree/master/4_BKSEC/Matryoshka-Doll/files). Tuy nhiên thì chị ấy không đề cập về cách build, may mắn là mình đã tìm được blog của ired.team nói chi tiết về kỹ thuật `Loading and Executing Shellcode From PE Resources`. Về tổng quan của kỹ thuật này nói về cách thực thi shellcode bằng cách convert file DLL sang shellcode và add resource shellcode đó vào project trên Visual Studio. Bạn đọc tham khảo chi tiết dưới link:
 - https://www.ired.team/offensive-security/code-injection-process-injection/loading-and-executing-shellcode-from-portable-executable-resources 
 - https://www.ired.team/offensive-security/code-injection-process-injection/reflective-shellcode-dll-injection (Blog này nói về cách convert DLL file sang shellcode)
 - https://github.com/monoxgas/sRDI (Project về convert DLL sang shellcode).
