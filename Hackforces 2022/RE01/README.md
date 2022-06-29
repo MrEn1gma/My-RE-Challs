@@ -255,6 +255,42 @@ debug035:0000000180001F77 call    sub_180001900
 debug035:0000000180001F77 sub_180001D10 endp
 ```
 
-Debug tới đoạn dưới đây:
+Debug tới hàm `sub_180001900`:
 
 ![ok1](./h1.png)
+
+Đặt breakpoint như hình, sẽ thu được 1 chuỗi `IsDebuggerPresent`. Tiếp tục trace tiếp tới đoạn dưới: 
+
+```asm
+debug034:0000000180001A6F
+debug034:0000000180001A6F loc_180001A6F:
+debug034:0000000180001A6F mov     [rbp+90h+var_110], rdi
+debug034:0000000180001A73 mov     [rbp+90h+var_108], 0Fh
+debug034:0000000180001A7B mov     byte ptr [rsp+190h+var_120], dil
+debug034:0000000180001A80 lea     rax, [rsp+190h+var_150]
+debug034:0000000180001A85 mov     qword ptr [rsp+190h+var_160], rax
+debug034:0000000180001A8A lea     rcx, aKernel32Dll_0 ; "kernel32.dll"
+debug034:0000000180001A91 call    cs:off_180004008
+debug034:0000000180001A97 test    rax, rax
+debug034:0000000180001A9A jnz     short loc_180001AA5
+```
+
+```asm
+debug035:0000000180004008 off_180004008 dq offset kernel32_GetModuleHandleA
+debug035:0000000180004008                                         ; DATA XREF: sub_180001900+191↑r
+debug035:0000000180004010 off_180004010 dq offset kernel32_LoadLibraryA
+debug035:0000000180004010                                         ; DATA XREF: sub_180001D10+2D↑r
+debug035:0000000180004018 off_180004018 dq offset kernel32_GetProcAddress
+debug035:0000000180004018                                         ; DATA XREF: sub_180001900+1B9↑r
+debug035:0000000180004018                                         ; sub_180001D10+42↑r
+debug035:0000000180004020 off_180004020 dq offset kernel32_ExitProcess
+debug035:0000000180004020                                         ; DATA XREF: sub_180001900+22A↑r
+debug035:0000000180004020                                         ; sub_180001D10+8E↑r
+```
+
+Mình thấy được chương trình đang gọi API `GetModuleHandleA` bởi thư viện `kernel32.dll` và tiếp tục gọi API `GetProcAddress` mục đích chính nhằm gọi hàm `IsDebuggerPresent` =>> Anti-Debug tiếp theo.
+* Chiến thuật: Patch `jnz` sang `jz`, sau đó tiếp tục debug.
+
+Sử dụng plugin `FindCrypt`, mình có thể biết được chương trình sử dụng thuật toán AES và nó được thực hiện sau khi qua hàm Anti-Debug:
+
+
