@@ -361,5 +361,7 @@ debug034:0000000180001CF0 movdqa  [rsp+190h+var_160], xmm0            // \nWrong
 - https://www.ired.team/offensive-security/code-injection-process-injection/loading-and-executing-shellcode-from-portable-executable-resources 
 - https://www.ired.team/offensive-security/code-injection-process-injection/reflective-shellcode-dll-injection (Blog này nói về cách convert DLL file sang shellcode)
 - https://github.com/monoxgas/sRDI (Project về convert DLL sang shellcode).
+- Project obfuscation các strings `xorstr`: https://github.com/JustasMasiulis/xorstr 
+- `tiny-AES-C`: https://github.com/kokke/tiny-AES-c
 
 END.
