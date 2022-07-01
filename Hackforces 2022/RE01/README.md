@@ -307,7 +307,7 @@ Giá trị output sau khi thực hiện mã hoá bằng AES, tiếp tục mã ho
 
 Bước cuối cùng sẽ thực hiện so sánh với cipher mà các byte array nằm ở đoạn đầu của hàm main. Nếu đúng thì sẽ in ra chuỗi `Correct !!!`, ngược lại sẽ là `Wrong !!!`.
 
-Hình dưới là 2 block của 2 chuỗi `Correct !!!` và `Wrong !!!` đã bị obfuscation:
+Hình dưới là 2 block của 2 chuỗi `Correct !!!` và `Wrong !!!` đã bị obfuscated:
 
 ```asm
 Print ra chuỗi `\nCorrect !!!`
